@@ -1,6 +1,6 @@
 # CLAUDE.md — Calculadora Battsaver
 
-Instrucciones de contexto para trabajar en `Calculadora_Battsaver_v5.html`, la calculadora interactiva de repago/ahorro/margen de Battsaver. Este archivo es distinto del `CLAUDE.md` de instrucciones de documentos (.docx/.pptx/.xlsx) del proyecto — este gobierna específicamente el desarrollo de esta pieza de software.
+Instrucciones de contexto para trabajar en `Calculadora_Battsaver.html`, la calculadora interactiva de repago/ahorro/margen de Battsaver. Este archivo es distinto del `CLAUDE.md` de instrucciones de documentos (.docx/.pptx/.xlsx) del proyecto — este gobierna específicamente el desarrollo de esta pieza de software.
 
 ---
 
@@ -105,7 +105,7 @@ Fuente de verdad: `Manual_de_Marca__BATTSAVER.pdf` (17 páginas, en el proyecto)
 - **Sin build step.** Cualquier cambio se edita directo en el HTML.
 - **Formato de dinero**: `cop()` da formato completo ("$399.900"), `copShort()` abrevia a millones ("$1,8 mill."). El input de precio de batería (`#batt`) es `type="text"` con formateo en vivo de miles (`fmtMoneyInput`) y se lee con `moneyVal()` (parsea dígitos, ignora puntos) — no volver a `type="number"` ahí, se decidió así para evitar que el usuario vea "450000" sin separador.
 - **Validación antes de entregar**: cada cambio se verifica con Playwright — render headless, recorrer los 4 canales + toggle de intención + modos, capturar pantallas, revisar `console.error`/`pageerror`, y contar llaves/paréntesis balanceados como chequeo rápido de sintaxis antes de guardar.
-- **Archivo de salida**: siempre `Calculadora_Battsaver_v5.html` en `/mnt/user-data/outputs/`. Versiones anteriores (v1–v4, 3modos) se conservan en la misma carpeta como historial, no se borran ni se referencian desde el archivo activo.
+- **Archivo de salida**: siempre `Calculadora_Battsaver.html` en la raíz del repo. El versionado ya lo lleva git (historial de commits), no el nombre del archivo — no reintroducir sufijos `_v1`/`_v2`/etc. Versiones anteriores previas al repo (v1–v4, 3modos, v5) quedan solo en el historial de git, no como archivos sueltos.
 
 ---
 
