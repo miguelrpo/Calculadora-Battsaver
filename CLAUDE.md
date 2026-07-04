@@ -113,7 +113,7 @@ Fuente de verdad: `Manual_de_Marca__BATTSAVER.pdf` (17 páginas, en el proyecto)
 
 - **Repo**: [github.com/miguelrpo/Calculadora-Battsaver](https://github.com/miguelrpo/Calculadora-Battsaver) — **público**. Se evaluó dejarlo privado, pero GitHub Pages en repos privados requiere un plan de pago (Pro/Team/Enterprise); la cuenta `miguelrpo` está en plan Free. El usuario aceptó hacerlo público sabiendo que, de todos modos, el HTML es 100% client-side: cualquiera con el link a la página publicada puede ver precios y descuentos por canal con "Ver código fuente", sin importar la visibilidad del repo.
 - **GitHub Pages**: activo desde la rama `main`, carpeta `/`. URL: `https://miguelrpo.github.io/Calculadora-Battsaver/Calculadora_Battsaver.html`. La raíz del sitio (`.../Calculadora-Battsaver/`) **no** redirige ni sirve la calculadora — decisión explícita del usuario de no crear un `index.html`/redirect para no duplicar el archivo. No agregar `index.html` sin pedirlo.
-- **Remote via HTTPS, no SSH**: el `~/.ssh/config` del usuario está corrupto (contiene la salida de un comando `brev` fallido en vez de config real) y rompe cualquier operación git por SSH. Por eso el remote `origin` usa `https://github.com/...` en vez de `git@github.com:...`. No cambiar a SSH ni intentar arreglar `~/.ssh/config` (es un archivo fuera del proyecto, del sistema del usuario) sin que lo pida explícitamente.
+- **Remote via SSH**: el `~/.ssh/config` del usuario estuvo corrupto temporalmente (contenía la salida de un comando `brev` fallido en vez de config real), lo que rompía las operaciones git por SSH — por eso el remote `origin` se usó en HTTPS durante un tiempo. Ya fue arreglado por el usuario y el remote `origin` vuelve a apuntar a `git@github.com:miguelrpo/Calculadora-Battsaver.git`. No tocar `~/.ssh/config` (es un archivo fuera del proyecto, del sistema del usuario) sin que lo pida explícitamente.
 - **push**: cambios en `Calculadora_Battsaver.html` y `CLAUDE.md` se commitean y suben a `main` (no hay ramas de feature ni PRs en este flujo por ahora); `main` se despliega automáticamente vía Pages en cada push.
 
 ---
@@ -136,4 +136,4 @@ Fuente de verdad: `Manual_de_Marca__BATTSAVER.pdf` (17 páginas, en el proyecto)
 - No usar colores fuera de navy/carbón/negro/blanco/teal-mint/ámbar(solo warnings) sin verificar contra el Manual de Marca.
 - No cambiar "tú/tu" de vuelta a "usted/su".
 - No volver el repo privado sin antes avisar que eso apaga GitHub Pages (plan Free no soporta Pages en repos privados) — ver §7.
-- No tocar `~/.ssh/config` del usuario ni cambiar el remote de HTTPS a SSH sin que lo pida explícitamente — ver §7.
+- No tocar `~/.ssh/config` del usuario sin que lo pida explícitamente — ver §7.
