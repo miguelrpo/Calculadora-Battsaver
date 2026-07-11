@@ -83,12 +83,21 @@ var MIN_FLOTAS = 100;   // pedido mínimo Flotas, forzado en el cálculo Y en el
 
 ## 4. Identidad visual
 
-Fuente de verdad: `Manual_de_Marca__BATTSAVER.pdf` (17 páginas, en el proyecto). Puntos ya verificados página por página:
+Fuente de verdad histórica: `Manual_de_Marca__BATTSAVER.pdf` (17 páginas, en el proyecto). **Superseded en paleta de color** (2026-07-11) por un design system BATTSAVER más nuevo, entregado por el usuario como `CLAUDE-CODE-INSTRUCCIONES.md`, que formaliza tokens de color/tipografía/espaciado para toda la marca. La tipografía, el logo y la voz de marca del manual siguen vigentes; lo que cambió es la paleta.
 
-- **Colores oficiales de marca**: navy `#08344D`, carbón `#2E2E2E`, negro, blanco. El manual muestra explícitamente un logo en cian como ejemplo de "Nunca modifiques los colores institucionales" — cualquier verde/teal/mint usado en la app es una **decisión de acento comercial del usuario**, no un color de marca oficial. Actualmente el acento vigente es **teal `#0E8C7F` / mint `#C2E9D5`** (revertido desde un intento de ámbar que se probó y se descartó). El ámbar (`--amber`/`--amber-d`/`--amber-bg`) se conserva **solo** para el bloque de advertencia (`.warn`), donde es semánticamente correcto (ícono ⚠️ del manual).
-- **Tipografía oficial**: **Cloud** (Cloud Bold para títulos, Cloud Light/Regular para texto corrido). No existe en Google Fonts ni tiene CDN pública confiable. Se usa **Plus Jakarta Sans** como sustituta temporal vía Google Fonts, con un `@font-face` placeholder ya declarado apuntando a `src:local("Cloud")` — **pendiente**: el usuario va a enviar el archivo de fuente oficial; cuando llegue, reemplazar el `src:local(...)` por `url()` al `.woff2` y no tocar nada más (toda la app hereda de `body{font-family:"Cloud","Plus Jakarta Sans",...}`).
+- **Colores — design system vigente (no el navy/teal del manual anterior)**:
+  - `--bs-blue #003B5C` (Pantone 302 C) — protagonista: headers, botones primarios, superficies oscuras.
+  - `--bs-ink #0B1D35` — reemplaza al negro puro en fondos/texto/sombras (negro `#000` prohibido salvo imprenta).
+  - `--bs-charcoal #2E2E2E` — solo texto neutro.
+  - `--bs-electric #16A3CC` (+ `--bs-electric-soft`, `--bs-electric-tint`) — acento de **producto/UI**: inputs, focus, sliders, estados interactivos. Reemplaza al teal/mint anterior.
+  - `--bs-sunset*` (`#FFD9A6→#FFA85F→#FF8F61→#E2643C`, gradiente `--bs-sunset-grad`) — acento **sunset**, solo para momentos de marketing/cierre de venta (hero de resultados, pitch de cierre, taglines de marca). Nunca como superficie dominante ni en controles de UI. Sobre blanco falla contraste WCAG AA — solo usar sobre azul profundo/ink o como fill decorativo.
+  - Neutros fríos derivados de ink (`--bs-cloud #F3F7F9` fondo de página, `--bs-fill`, `--bs-border`, `--bs-text-2`, `--bs-muted`, `--bs-dark-sub`) — nunca grises cálidos.
+  - Ámbar (`--bs-alert`/`--amber-bg`) se conserva **solo** para el bloque de advertencia (`.warn`), semánticamente correcto (⚠️).
+  - Sombras siempre tintadas de azul 302 C (`rgba(0,59,92,...)`), nunca negras. Focus ring cian `rgba(22,163,204,.35)`.
+  - **Implementación**: los tokens `--bs-*` viven en `:root`; las variables antiguas (`--navy`, `--teal`, `--mint`, `--amber`, `--bg`, `--ink`, etc.) quedan como **alias** apuntando a los tokens nuevos (`--navy:var(--bs-blue)`, `--teal:var(--bs-electric)`...) para no tener que tocar cada regla que ya las usaba. Si se agrega un color nuevo, usar un token `--bs-*` directamente, no un hex suelto.
+- **Tipografía oficial**: **Cloud** (Cloud Bold para títulos, Cloud Light/Regular para texto corrido). No existe en Google Fonts ni tiene CDN pública confiable. Se usa **Plus Jakarta Sans** como sustituta temporal vía Google Fonts, con un `@font-face` placeholder ya declarado apuntando a `src:local("Cloud")` — **pendiente**: el usuario va a enviar el archivo de fuente oficial; cuando llegue, reemplazar el `src:local(...)` por `url()` al `.woff2` y no tocar nada más (toda la app hereda de `body{font-family:"Cloud","Plus Jakarta Sans",...}`). El design system nuevo también menciona **Acumin Pro** para UI (labels/botones/datos) — pendiente de evaluar, no implementado aún.
 - **Logo**: horizontal blanco oficial, incrustado como base64 en el `<header>` (no depender de una carpeta `assets/` externa — el archivo debe seguir siendo un único HTML portable). Original en `/mnt/user-data/uploads/1782936656692_LOGO_BATTSAVER_HORIZONTAL_-_WHITE_-_CUT.png`.
-- **Voz de marca**: tú/tu (ver §3).
+- **Voz de marca**: tú/tu (ver §3). El tagline del header usa ahora la frase de marca "Más vida para tu batería" (antes "Tu aliado para el cuidado de baterías"), en color sunset.
 
 ---
 
@@ -132,8 +141,10 @@ Fuente de verdad: `Manual_de_Marca__BATTSAVER.pdf` (17 páginas, en el proyecto)
 
 - No reintroducir el modo "Rotación activa" (fue removido a propósito).
 - No volver a mostrar cantidad/total en la vista de reventa (es intencionalmente unitaria).
-- No cambiar el acento teal/mint por otro color sin que el usuario lo pida — ya hubo una iteración completa a ámbar que se revirtió.
-- No usar colores fuera de navy/carbón/negro/blanco/teal-mint/ámbar(solo warnings) sin verificar contra el Manual de Marca.
+- No cambiar el acento cian de producto (`--bs-electric`) ni el sunset comercial por otros colores sin que el usuario lo pida — ya hubo una iteración completa a ámbar (anterior a este design system) que se revirtió.
+- No usar sunset como superficie dominante ni en controles de UI de producto (inputs, sliders, botones funcionales) — es exclusivo de momentos de marketing/cierre (hero, pitch, taglines). Ver §4.
+- No usar negro puro (`#000`) en fondos/texto/sombras — usar `--bs-ink` o el azul de marca.
+- No usar colores fuera de los tokens `--bs-*` del design system (§4) sin verificarlos contra `CLAUDE-CODE-INSTRUCCIONES.md` o el Manual de Marca.
 - No cambiar "tú/tu" de vuelta a "usted/su".
 - No volver el repo privado sin antes avisar que eso apaga GitHub Pages (plan Free no soporta Pages en repos privados) — ver §7.
 - No tocar `~/.ssh/config` del usuario sin que lo pida explícitamente — ver §7.
